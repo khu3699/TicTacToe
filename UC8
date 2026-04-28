@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+bool checkWin(char board[]);
+bool checkDraw(char board[]);
+
+int main()
+{
+    char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    char currentPlayer = 'X';
+    bool gameOver = false;
+
+    while (!gameOver)
+    {
+        // Player makes move (assume function exists)
+        // makeMove(board, currentPlayer);
+
+        if (checkWin(board))
+        {
+            cout << "Player " << currentPlayer << " wins!";
+            gameOver = true;
+        }
+        else if (checkDraw(board))
+        {
+            cout << "Game is a draw!";
+            gameOver = true;
+        }
+        else
+        {
+            // Switch turn
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        }
+    }
+
+    return 0;
+}
