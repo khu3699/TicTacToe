@@ -1,0 +1,11 @@
+bool checkDraw(char board[])
+{
+    for(int i = 0; i < 9; i++)
+    {
+        if(board[i] == ' ') // if any empty cell exists
+        {
+            return false;   // not a draw
+        }
+    }
+    return true; // no empty cells → draw
+}
