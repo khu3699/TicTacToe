@@ -1,0 +1,131 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+// Display board
+void displayBoard(char board[])
+{
+    cout << "\n";
+    cout << board[0] << " | " << board[1] << " | " << board[2] << endl;
+    cout << "--+---+--\n";
+    cout << board[3] << " | " << board[4] << " | " << board[5] << endl;
+    cout << "--+---+--\n";
+    cout << board[6] << " | " << board[7] << " | " << board[8] << endl;
+    cout << "\n";
+}
+
+// UC9: Check Win
+bool checkWin(char board[])
+{
+    int win[8][3] = {
+        {0,1,2}, {3,4,5}, {6,7,8},
+        {0,3,6}, {1,4,7}, {2,5,8},
+        {0,4,8}, {2,4,6}
+    };
+
+    for(int i = 0; i < 8; i++)
+    {
+        if(board[win[i][0]] != ' ' &&
+           board[win[i][0]] == board[win[i][1]] &&
+           board[win[i][1]] == board[win[i][2]])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// UC10: Check Draw
+bool checkDraw(char board[])
+{
+    for(int i = 0; i < 9; i++)
+    {
+        if(board[i] == ' ')
+            return false;
+    }
+    return true;
+}
+
+// UC7: Computer Move (Random Valid)
+void computerMove(char board[])
+{
+    int pos;
+    while(true)
+    {
+        pos = rand() % 9; // 0–8
+        if(board[pos] == ' ')
+        {
+            board[pos] = 'O';
+            break;
+        }
+    }
+}
+
+// Player Move
+void playerMove(char board[])
+{
+    int pos;
+    while(true)
+    {
+        cout << "Enter position (1-9): ";
+        cin >> pos;
+        pos--; // convert to 0–8
+
+        if(pos >= 0 && pos < 9 && board[pos] == ' ')
+        {
+            board[pos] = 'X';
+            break;
+        }
+        else
+        {
+            cout << "Invalid move. Try again.\n";
+        }
+    }
+}
+
+// UC8: Game Loop
+int main()
+{
+    char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    srand(time(0));
+
+    while(true)
+    {
+        displayBoard(board);
+
+        // Player turn
+        playerMove(board);
+        if(checkWin(board))
+        {
+            displayBoard(board);
+            cout << "Player wins!\n";
+            break;
+        }
+        if(checkDraw(board))
+        {
+            displayBoard(board);
+            cout << "Game is a draw!\n";
+            break;
+        }
+
+        // Computer turn
+        computerMove(board);
+        cout << "Computer played.\n";
+
+        if(checkWin(board))
+        {
+            displayBoard(board);
+            cout << "Computer wins!\n";
+            break;
+        }
+        if(checkDraw(board))
+        {
+            displayBoard(board);
+            cout << "Game is a draw!\n";
+            break;
+        }
+    }
+
+    return 0;
+}
